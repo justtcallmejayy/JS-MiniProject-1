@@ -2,32 +2,27 @@
      and an "Add Task" button for submitting tasks. The unordered list (ul) will hold 
      dynamically added task items. -->
 
-
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do-List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS-MinProject-1</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
+  <body>
     <h1>To-Do App</h1>
-    <input placeholder="Please enter your tasks">
-    <button>Add Task</button>
+    <input placeholder="Enter your task here" id="taskInput" />
+    <button id="addTaskBtn">Add Task</button>
 
-    <div class="example">
-        <ul>
-            <li>Eat</li>
-            <li>Sleep</li>
-            <li>Code</li>
-            <li>Repeat</li>
-        </ul>
+    <div class="todo-container">
+      <ul id="taskList">
+        <li draggable="true">Sample Task 1</li>
+        <li draggable="true">Sample Task 2</li>
+      </ul>
     </div>
 
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
