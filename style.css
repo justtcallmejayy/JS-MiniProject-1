@@ -1,65 +1,165 @@
+/* Root Variables for Light and Dark Mode */
+:root {
+    --base-color: #FDF0D5; /* Light cream background */
+    --base-variant: #e8e9ed; /* Light gray background */
+    --text-color: #003049; /* Navy blue for text */
+    --secondary-text: #669BBC; /* Soft blue for secondary text */
+    --primary-color: #2A9D8F; /* Deep green for accents */
+    --accent-color: #E76F51; /* Bright red for delete buttons */
+    --transition-speed: 0.3s;
+}
+
+/* Dark Mode Variables */
+.darkmode {
+    --base-color: #070b1d; /* Dark navy background */
+    --base-variant: #101425; /* Slightly lighter dark variant */
+    --text-color: #FDF0D5; /* Light cream text */
+    --secondary-text: #a4a5b8; /* Light gray text for secondary items */
+    --primary-color: #F4A261; /* Light orange for accents */
+    --accent-color: #C1121F; /* Bright red for delete buttons */
+}
+
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #264653;
-    color: #E9C46A;
+    background-color: var(--base-color);
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.6;
     margin: 0;
     padding: 0;
-    text-align: center;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
+/* Header Styles */
 h1 {
-    color: #2A9D8F;
     margin-top: 20px;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
 }
 
+/* Input and Button Styles */
 input {
     padding: 10px;
     margin: 10px;
-    width: 300px;
-    border: 2px solid #2A9D8F;
+    width: 250px;
+    border: none;
     border-radius: 5px;
+    background-color: var(--base-variant);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 button {
     padding: 10px;
-    background-color: #E76F51;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    cursor: pointer;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
 }
 
 button:hover {
-    background-color: #F4A261;
+    background-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
-.todo-container {
-    margin: 20px auto;
-    max-width: 400px;
-    background-color: #2A9D8F;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
+/* List and Task Styles */
 ul {
     list-style-type: none;
     padding: 0;
+    width: 300px;
 }
 
 li {
-    background-color: #F4A261;
-    color: #264653;
-    margin: 5px 0;
+    background-color: var(--base-variant);
+    margin: 5px;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: grab;
-    display: flex;
-    justify-content: space-between;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 li.dragging {
     opacity: 0.5;
-    background-color: #E76F51;
+    cursor: grabbing;
+}
+
+/* Delete Button Styles */
+.delete-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.delete-btn:hover {
+    background-color: #d55841;
+}
+
+/* Theme Switcher */
+#theme-switch {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: var(--base-variant);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+#theme-switch:hover {
+    transform: scale(1.1);
+}
+
+#theme-switch svg {
+    fill: var(--primary-color);
+    transition: fill var(--transition-speed);
+}
+
+#theme-switch svg:last-child {
+    display: none;
+}
+
+.darkmode #theme-switch svg:first-child {
+    display: none;
+}
+
+.darkmode #theme-switch svg:last-child {
+    display: block;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    input {
+        width: 200px;
+    }
+
+    ul {
+        width: 90%;
+    }
 }

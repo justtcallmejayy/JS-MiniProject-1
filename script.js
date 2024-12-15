@@ -1,60 +1,48 @@
-// Select the button, unordered list, and input field from the HTML document
-// to facilitate task management functionality in the To-Do App.
-
 let btn = document.querySelector("button");
-let ul = document.querySelector("#task-list");
+let ul = document.querySelector("ul");
 let input = document.querySelector("input");
 
-btn.addEventListener("click", function () {
-  // When the "Add Task" button is clicked, the value from the input field is retrieved,
-  // a new list item is created, and it is appended to the task list (ul).
+// Dark mode toggle
+let darkmode = localStorage.getItem("darkmode");
+const themeSwitch = document.getElementById("theme-switch");
 
-  // A delete button is also created for each new task, allowing users to remove tasks
-  // from the list when clicked, enhancing task management.
+const toggleDarkMode = () => {
+  const isDark = document.body.classList.toggle("darkmode");
+  localStorage.setItem("darkmode", isDark ? "active" : null);
+};
 
-  // Finally, the input field is cleared to allow for new task entries without manual deletion.
-  let newTodo = input.value;
-  if (newTodo.trim() === "") return;
-  input.value = "";
-
-  let li = document.createElement("li");
-  li.innerText = newTodo;
-  li.setAttribute("draggable", true);
-
-  let deleteBtn = document.createElement("button");
-  deleteBtn.innerText = "Delete";
-  deleteBtn.className = "delete-btn";
-  deleteBtn.addEventListener("click", function () {
-    ul.removeChild(li);
-  });
-
-  li.appendChild(deleteBtn);
-  ul.appendChild(li);
-
-  addDragAndDropEvents(li);
-});
-
-// Drag-and-drop functionality
-function addDragAndDropEvents(task) {
-  task.addEventListener("dragstart", () => {
-    task.classList.add("dragging");
-  });
-
-  task.addEventListener("dragend", () => {
-    task.classList.remove("dragging");
-  });
+if (darkmode === "active") {
+  document.body.classList.add("darkmode");
 }
 
-ul.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const dragging = document.querySelector(".dragging");
-  const afterElement = getDragAfterElement(ul, e.clientY);
-  if (afterElement == null) {
-    ul.appendChild(dragging);
-  } else {
-    ul.insertBefore(dragging, afterElement);
-  }
-});
+themeSwitch.addEventListener("click", toggleDarkMode);
+
+// Drag-and-drop functionality
+function addDragAndDropHandlers() {
+  let listItems = document.querySelectorAll("li");
+
+  listItems.forEach((item) => {
+    item.addEventListener("dragstart", function (e) {
+      e.dataTransfer.setData("text/plain", e.target.id);
+      e.target.classList.add("dragging");
+    });
+
+    item.addEventListener("dragend", function () {
+      e.target.classList.remove("dragging");
+    });
+  });
+
+  ul.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    const draggingItem = document.querySelector(".dragging");
+    const afterElement = getDragAfterElement(ul, e.clientY);
+    if (afterElement == null) {
+      ul.appendChild(draggingItem);
+    } else {
+      ul.insertBefore(draggingItem, afterElement);
+    }
+  });
+}
 
 function getDragAfterElement(container, y) {
   const draggableElements = [
@@ -75,5 +63,30 @@ function getDragAfterElement(container, y) {
   ).element;
 }
 
-// Add drag-and-drop events to existing list items
-ul.querySelectorAll("li").forEach(addDragAndDropEvents);
+// Add new task functionality
+btn.addEventListener("click", function () {
+  let newTodo = input.value;
+  if (newTodo.trim() === "") {
+    alert("Please enter a task!");
+    return;
+  }
+  input.value = "";
+
+  let li = document.createElement("li");
+  li.innerText = newTodo;
+  li.draggable = true;
+
+  let deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "Delete";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.addEventListener("click", function () {
+    ul.removeChild(li);
+  });
+
+  li.appendChild(deleteBtn);
+  ul.appendChild(li);
+
+  addDragAndDropHandlers();
+});
+
+addDragAndDropHandlers();
